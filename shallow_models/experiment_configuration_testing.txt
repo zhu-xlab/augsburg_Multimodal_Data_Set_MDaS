@@ -1,0 +1,125 @@
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+Most important results
+--------------------------------------------------
+Bands: 1:210
+Sentinel-2: EeteS simulated sentinel-2 [2,3,4,8]
+Process HySure ...
+The algorithm took 219.44 seconds to run.
+Elapsed time is 224.673181 seconds.
+No denoising
+PSNR : 29.5751
+SAM  : 7.1616
+ERGAS: 7.8164
+Q2n  : 0.43904
+--------------------------------------------------
+CNMF, not deterministic
+Bands: 1:210
+Sentinel-2: EeteS simulated sentinel-2 [2,3,4,8]
+(first repeat)
+Process CNMF ...
+Elapsed time is 51.822055 seconds.
+No denoising
+PSNR : 32.7796
+SAM  : 4.3652
+ERGAS: 5.368
+Q2n  : 0.48801
+(second repeat)
+Process CNMF ...
+Elapsed time is 48.453897 seconds.
+No denoising
+PSNR : 32.2974
+SAM  : 4.6563
+ERGAS: 5.5874
+Q2n  : 0.46575
+--------------------------------------------------
+Bands: 1:210
+Sentinel-2: EeteS simulated sentinel-2 [2,3,4,8]
+Process GLPHS ...
+Elapsed time is 9.558942 seconds.
+Perform denoising ...
+PSNR : 30.088
+SAM  : 5.069
+ERGAS: 6.2706
+Q2n  : 0.39195
+
+
+
+
+
+
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+Secondary important results
+--------------------------------------------------
+Bands: 1:220
+Process HySure ...
+The algorithm took 182.00 seconds to run.
+Elapsed time is 186.956601 seconds.
+No denoising
+PSNR : 24.6657
+SAM  : 8.5601
+ERGAS: 11.7165
+Q2n  : 0.21979
+--------------------------------------------------
+Bands: 1:210
+Process HySure ...
+The algorithm took 182.03 seconds to run.
+Elapsed time is 185.692940 seconds.
+No denoising
+PSNR : 24.7242
+SAM  : 8.1341
+ERGAS: 11.4528
+Q2n  : 0.24122
+--------------------------------------------------
+Bands: 1:210
+MSI(MSI(:)>1e4) = 0;
+HSI(HSI(:)>1e4) = 0;
+REF(REF(:)>1e4) = 0;
+Process HySure ...
+The algorithm took 179.72 seconds to run.
+Elapsed time is 183.491026 seconds.
+No denoising
+PSNR : 24.9613
+SAM  : 8.3248
+ERGAS: 10.9204
+Q2n  : 0.22031
+--------------------------------------------------
+Bands: 1:210
+Sentinel-2: all 12 bands (others are set as [2,3,4,8])
+Process HySure ...
+The algorithm took 184.74 seconds to run.
+Elapsed time is 189.394795 seconds.
+No denoising
+PSNR : 24.4704
+SAM  : 8.553
+ERGAS: 11.41
+Q2n  : 0.13907
+
+
+
+
+
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+Settings not useful:
+--------------------------------------------------
+Bands: 1:210
+Individual data normalization
+HSI_scaling = max(HSI(:));
+MSI_scaling = max(MSI(:));
+REF_scaling = max(REF(:));
+HSI = HSI/HSI_scaling;
+MSI = MSI/MSI_scaling;
+REF = REF/REF_scaling;
+Process HySure ...
+The algorithm took 191.52 seconds to run.
+Elapsed time is 195.417052 seconds.
+No denoising
+PSNR : 18.2098
+SAM  : 8.9431
+ERGAS: 15.4009
+Q2n  : 0.049916

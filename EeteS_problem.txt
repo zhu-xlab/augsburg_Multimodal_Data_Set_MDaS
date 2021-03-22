@@ -1,0 +1,3 @@
+EeteS data, both 10m and 30m GSD. bands 221 to bands 242, all values are 0. Ranging from 2275 nm to 2439 nm.
+
+Correspondingly, HySpex data, band 333 to band 368, values seems normal, some saturated pixels with values larger than 1e4
