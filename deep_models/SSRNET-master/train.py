@@ -3,7 +3,6 @@ from torch import nn
 from utils import to_var, batch_ids2words
 import random
 import torch.nn.functional as F
-import cv2
 
 
 def spatial_edge(x):
@@ -21,23 +20,22 @@ def spectral_edge(x):
 def train(train_list, 
           image_size, 
           scale_ratio, 
-          n_bands, 
           arch, 
           model, 
           optimizer, 
           criterion, 
           epoch, 
           n_epochs):
+
     train_ref, train_lr, train_hr = train_list
 
-    h, w = train_ref.size(2), train_ref.size(3)
-    h_str = random.randint(0, h-image_size-1)
-    w_str = random.randint(0, w-image_size-1)
+    h, w = train_lr.size(2), train_lr.size(3)
+    h_str = random.randint(0, h-image_size['height']-1)
+    w_str = random.randint(0, w-image_size['width']-1)
 
-    train_lr = train_ref[:, :, h_str:h_str+image_size, w_str:w_str+image_size]
-    train_ref = train_ref[:, :, h_str:h_str+image_size, w_str:w_str+image_size]
-    train_lr = F.interpolate(train_ref, scale_factor=1/(scale_ratio*1.0))
-    train_hr = train_hr[:, :, h_str:h_str+image_size, w_str:w_str+image_size]
+    train_lr  = train_lr[:, :, h_str:h_str+image_size['height'], w_str:w_str+image_size['width']]
+    train_ref = train_ref[:, :, h_str*scale_ratio:(h_str+image_size['height'])*scale_ratio, w_str*scale_ratio:(w_str+image_size['width'])*scale_ratio]
+    train_hr  = train_hr[:, :, h_str*scale_ratio:(h_str+image_size['height'])*scale_ratio, w_str*scale_ratio:(w_str+image_size['width'])*scale_ratio]
 
     model.train()
 

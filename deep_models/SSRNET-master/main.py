@@ -1,3 +1,4 @@
+import os
 import time
 import torch
 import torch.backends.cudnn as cudnn
@@ -9,90 +10,61 @@ from models.TFNet import TFNet, ResTFNet
 from models.SSFCNN import SSFCNN, ConSSFCNN
 from models.MSDCNN import MSDCNN
 from utils import *
-from data_loader import build_datasets
+from augsburg_data_loader import build_datasets
 from validate import validate
 from train import train
 import pdb
-import args_parser
 from torch.nn import functional as F
 
+class arguments():
+    def __init__(self):
+        self.n_bands = 242
+        self.arch = 'SSRNET'
+        self.scale_ratio = 3
+        self.n_bands_hyper = 242
+        self.n_bands_multi = 4
+        self.lr = 1e-4
+        self.model_path = '../trained_model/arch'
+        self.n_epochs = 10000
+        self.image_size = {}
+        self.image_size['height'] = 100
+        self.image_size['width'] = 120
+        print([self.image_size['height'],self.image_size['width']])
 
-args = args_parser.args_parser()
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
-print (args)
-
+cuda_dev = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(cuda_dev)
 
 def main():
+    args = arguments()
     # Custom dataloader
-    train_list, test_list = build_datasets(args.root, 
-                                           args.dataset, 
-                                           args.image_size, 
-                                           args.n_select_bands, 
-                                           args.scale_ratio)
-    if args.dataset == 'PaviaU':
-      args.n_bands = 103
-    elif args.dataset == 'Pavia':
-      args.n_bands = 102
-    elif args.dataset == 'Botswana':
-      args.n_bands = 145
-    elif args.dataset == 'KSC':
-      args.n_bands = 176
-    elif args.dataset == 'Urban':
-      args.n_bands = 162
-    elif args.dataset == 'IndianP':
-      args.n_bands = 200
-    elif args.dataset == 'Washington':
-      args.n_bands = 191
+    train_list, test_list, valid_list = build_datasets()
 
     # Build the models
-    if args.arch == 'SSFCNN':
-      model = SSFCNN(args.scale_ratio, 
-                     args.n_select_bands, 
-                     args.n_bands).cuda()
-    elif args.arch == 'ConSSFCNN':
-      model = ConSSFCNN(args.scale_ratio, 
-                        args.n_select_bands, 
-                        args.n_bands).cuda()
-    elif args.arch == 'TFNet':
-      model = TFNet(args.scale_ratio, 
-                    args.n_select_bands, 
-                    args.n_bands).cuda()
-    elif args.arch == 'ResTFNet':
-      model = ResTFNet(args.scale_ratio, 
-                       args.n_select_bands, 
-                       args.n_bands).cuda()
-    elif args.arch == 'MSDCNN':
-      model = MSDCNN(args.scale_ratio, 
-                     args.n_select_bands, 
-                     args.n_bands).cuda()
-    elif args.arch == 'SSRNET' or args.arch == 'SpatRNET' or args.arch == 'SpecRNET':
-      model = SSRNET(args.arch,
+    if args.arch == 'ResTFNet':
+        model = ResTFNet(args.scale_ratio, 
+                       args.n_bands_multi, 
+                       args.n_bands_hyper).to(cuda_dev)
+    elif args.arch == 'SSRNET':
+        model = SSRNET(args.arch,
                      args.scale_ratio,
-                     args.n_select_bands, 
-                     args.n_bands).cuda()
-    elif args.arch == 'SpatCNN':
-      model = SpatCNN(args.scale_ratio, 
-                     args.n_select_bands, 
-                     args.n_bands).cuda()
-    elif args.arch == 'SpecCNN':
-      model = SpecCNN(args.scale_ratio, 
-                     args.n_select_bands, 
-                     args.n_bands).cuda()
+                     args.n_bands_multi, 
+                     args.n_bands_hyper).to(cuda_dev)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 
     # Load the trained model parameters
-    model_path = args.model_path.replace('dataset', args.dataset) \
-                                .replace('arch', args.arch) 
+    model_path = args.model_path.replace('arch', args.arch) 
+
     if os.path.exists(model_path):
         model.load_state_dict(torch.load(model_path), strict=False)
         print ('Load the chekpoint of {}'.format(model_path))
-        recent_psnr = validate(test_list, 
+        recent_psnr = validate(valid_list, 
                                 args.arch,
                                 model,
                                 0,
-                                args.n_epochs)
+                                args.n_epochs,
+                                cuda_dev)
         print ('psnr: ', recent_psnr)
 
     # Loss and Optimizer
@@ -100,11 +72,12 @@ def main():
 
 
     best_psnr = 0
-    best_psnr = validate(test_list,
+    best_psnr = validate(valid_list,
                           args.arch, 
                           model,
                           0,
-                          args.n_epochs)
+                          args.n_epochs,
+                          cuda_dev)
     print ('psnr: ', best_psnr)
 
     # Epochs
@@ -115,7 +88,6 @@ def main():
         train(train_list, 
               args.image_size,
               args.scale_ratio,
-              args.n_bands, 
               args.arch,
               model, 
               optimizer, 
@@ -125,20 +97,21 @@ def main():
 
         # One epoch's validation
         print ('Val_Epoch_{}: '.format(epoch))
-        recent_psnr = validate(test_list, 
+        recent_psnr = validate(valid_list, 
                                 args.arch,
                                 model,
                                 epoch,
-                                args.n_epochs)
+                                args.n_epochs,
+                                cuda_dev)
         print ('psnr: ', recent_psnr)
 
         # # save model
         is_best = recent_psnr > best_psnr
         best_psnr = max(recent_psnr, best_psnr)
         if is_best:
-          torch.save(model.state_dict(), model_path)
-          print ('Saved!')
-          print ('')
+            torch.save(model.state_dict(), model_path)
+            print ('Saved!')
+            print ('')
 
     print ('best_psnr: ', best_psnr)
 
