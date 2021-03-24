@@ -20,7 +20,7 @@ from datetime import datetime
 class arguments():
     def __init__(self):
         self.n_bands = 242
-        self.arch = 'SSRNET'
+        self.arch = 'ResTFNet'
         self.scale_ratio = 3
         self.n_bands_hyper = 242
         self.n_bands_multi = 4

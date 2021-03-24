@@ -61,10 +61,15 @@ class ResTFNet(nn.Module):
                   nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1),
                   nn.PReLU(),
                 )
-        self.fusion_conv4 = nn.Sequential(
-                  nn.ConvTranspose2d(256, 128, kernel_size=2, stride=2, padding=0),
-                  nn.PReLU(),                
-                )
+        #self.fusion_conv4 = nn.Sequential(
+        #          nn.ConvTranspose2d(256, 128, kernel_size=2, stride=2, padding=0),
+        #          nn.PReLU(),                
+        #        )
+        # dis-semble this block into two layers. As such, one can set output size of up-sample in forward. It works with odd size image patch
+        self.fusion_conv4_c = nn.ConvTranspose2d(256, 128, kernel_size=2, stride=2, padding=0)
+        self.fusion_conv4_a = nn.PReLU()
+
+
 
         self.recons_conv1 = nn.Sequential(
                   nn.Conv2d(256, 128, kernel_size=1, stride=1, padding=0),
@@ -75,10 +80,15 @@ class ResTFNet(nn.Module):
                   nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1),
                   nn.PReLU(),
                 )
-        self.recons_conv3 = nn.Sequential(
-                  nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2, padding=0),
-                  nn.PReLU(),
-                )
+        #self.recons_conv3 = nn.Sequential(
+        #          nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2, padding=0),
+        #          nn.PReLU(),
+        #        )
+        # dis-semble this block into two layers. As such, one can set output size of up-sample in forward. It works with odd size image patch
+        self.recons_conv3_c = nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2, padding=0)
+        self.recons_conv3_a = nn.PReLU()
+
+
         self.recons_conv4 = nn.Sequential(
                   nn.Conv2d(128, 64, kernel_size=1, stride=1, padding=0),
                 )
@@ -94,7 +104,6 @@ class ResTFNet(nn.Module):
                 )
 
     def forward(self, x_lr, x_hr):
-
         # feature extraction
         x_lr = F.interpolate(x_lr, scale_factor=self.scale_ratio, mode='bilinear')
         x_lr = self.lr_conv1(x_lr)
@@ -113,14 +122,16 @@ class ResTFNet(nn.Module):
         x_fus_cat = x
         x = self.fusion_conv2(x)
         x = x + self.fusion_conv3(x)
-        x = self.fusion_conv4(x)
+        x = self.fusion_conv4_c(x, output_size=(x_fus_cat.shape[2],x_fus_cat.shape[3]))
+        x = self.fusion_conv4_a(x)
         x = torch.cat((x_fus_cat, x), dim=1)
 
 
         # image reconstruction
         x = self.recons_conv1(x)
         x = x + self.recons_conv2(x)
-        x = self.recons_conv3(x)
+        x = self.recons_conv3_c(x, output_size=(x_lr_cat.shape[2],x_lr_cat.shape[3]))
+        x = self.recons_conv3_a(x)
         x = torch.cat((x_lr_cat, x_hr_cat, x), dim=1)
         x = self.recons_conv4(x)
 
