@@ -9,7 +9,7 @@ from models.TFNet import ResTFNet
 
 class arguments():
     def __init__(self):
-        self.model = 'SSRNET_2021-03-23_18-00-00'
+        self.model = 'ResTFNet_2021-03-24_16-44-09'
         print('Model used for prediction: ', self.model)
         self.arch  = self.model.split('_')[0]
         print('Model architecture type: ', self.arch)

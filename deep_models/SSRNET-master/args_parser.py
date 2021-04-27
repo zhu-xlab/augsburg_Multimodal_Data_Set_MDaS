@@ -5,25 +5,18 @@ def args_parser():
 
     parser.add_argument('-arch', type=str, default='SSRNET',
                             choices=[# these four models are used for ablation experiments
-                                     'SpatCNN', 'SpecCNN',
-                                     'SpatRNET', 'SpecRNET', 
-                                     # the proposed method
                                      'SSRNET', 
                                      # these five models are used for comparison experiments
-                                     'SSFCNN', 'ConSSFCNN', 
-                                     'TFNet', 'ResTFNet', 
-                                     'MSDCNN'
+                                     'ResTFNet' 
                                      ])
 
     parser.add_argument('-root', type=str, default='./data')    
-    parser.add_argument('-dataset', type=str, default='Botswana',
-                            choices=['PaviaU', 'Botswana', 'KSC', 'Urban', 'Pavia', 'IndianP', 'Washington'])    
-    parser.add_argument('--scale_ratio', type=float, default=4)
-    parser.add_argument('--n_bands', type=int, default=0)
-    parser.add_argument('--n_select_bands', type=int, default=5)
+    parser.add_argument('--scale_ratio', type=float, default=3)
+    parser.add_argument('--n_bands_hyper', type=int, default=242)
+    parser.add_argument('--n_bands_multi', type=int, default=4)
 
     parser.add_argument('--model_path', type=str, 
-                            default='./checkpoints/dataset_arch.pkl',
+                            default='../trained_model/arch.pkl',
                             help='path for trained encoder')
     parser.add_argument('--train_dir', type=str, default='./data/dataset/train',  
                             help='directory for resized images')
