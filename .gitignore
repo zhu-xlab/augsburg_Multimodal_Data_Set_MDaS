@@ -1,5 +1,4 @@
 data/*
 *.zip
 **/__pycache__
-*/trained_model
 **/ConSSFCNN.txt
