@@ -2,3 +2,7 @@ data/*
 *.zip
 **/__pycache__
 **/ConSSFCNN.txt
+
+**/*.tif
+**/*.hdr
+
