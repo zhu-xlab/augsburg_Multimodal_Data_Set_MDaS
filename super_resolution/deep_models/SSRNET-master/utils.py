@@ -14,9 +14,8 @@ from torch.nn.utils.rnn import pack_padded_sequence
 
 
 
-def to_var(x, volatile=False):
-    if torch.cuda.is_available():
-        x = x.cuda().float()
+def to_var(x, cuda_dev, volatile=False):
+    x = x.cuda(cuda_dev).float()
     return Variable(x, volatile=volatile)
 
 class AverageMeter(object):

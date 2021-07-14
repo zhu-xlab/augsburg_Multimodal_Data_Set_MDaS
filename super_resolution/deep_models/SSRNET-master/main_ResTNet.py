@@ -34,7 +34,7 @@ class arguments():
         print([self.image_size['height'],self.image_size['width']])
 
 
-cuda_dev = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+cuda_dev = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 print(cuda_dev)
 
 def main():
@@ -95,7 +95,8 @@ def main():
               optimizer, 
               criterion, 
               epoch, 
-              args.n_epochs)
+              args.n_epochs,
+              cuda_dev)
 
         # One epoch's validation
         print ('Val_Epoch_{}: '.format(epoch))

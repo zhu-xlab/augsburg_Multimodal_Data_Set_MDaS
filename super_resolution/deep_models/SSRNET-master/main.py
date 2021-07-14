@@ -95,7 +95,8 @@ def main():
               optimizer, 
               criterion, 
               epoch, 
-              args.n_epochs)
+              args.n_epochs,
+              cuda_dev)
 
         # One epoch's validation
         print ('Val_Epoch_{}: '.format(epoch))

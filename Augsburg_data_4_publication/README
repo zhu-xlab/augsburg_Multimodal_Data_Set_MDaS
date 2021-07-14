@@ -1,0 +1,28 @@
+Data description:
+The Augsburg data set contains multiple data sources which are listed as below.
+3K_DSM.tif	 		- 3K DSM data
+3K_RGB.tif			- 3K high resoluation RGB image
+HySpex.tif			- Original very high resolution HySpex airborne imagery
+EeteS_EnMAP_10m.tif	  	- EeteS simulated imagery with 10m GSD and EnMAP spectral bands 
+EeteS_EnMAP_30m.tif     	- EeteS simulated imagery with 30m GSD and EnMAP spectral bands
+EeteS_Sentinel_2_10m.tif	- EeteS simulated imagery with 10m GSD and Sentinel-2 spectral bands
+Sentinel-2.tif			- Sentinel-2 L2A product
+Sentinel-1.tif			- Sentinel-1 GRD product
+OSM_label       		- OSM GIS data; detailed info in "entire_city/OSM_label/README"
+
+
+The data set is organized with some folders.
+entire_city			- This folder contains all data that cover the city of Augsburg
+sub_area_1			- This folder contains all data that cover a northern sub-area of the city 
+sub_area_2			- This folder contains all data that cover a city center sub-area of the city
+sub_area_3			- This folder contains all data that cover a western sub-area of the city
+sr_deep_model_data		- This folder contains two sub-regions, a southern half and a northeastern region.
+				  The southern half is used as the training data for super-resolution deep model
+				  The northeastern region is used as the validation data for super-resolution model
+				  The sub_area_1 is used as the testing data
+
+Files:
+band_242_meta_info.hdr		- spectral information of simulated EnMAP data
+band_368_meta_info.hdr		- spectral information of origial HySpex data
+
+

@@ -25,7 +25,8 @@ def train(train_list,
           optimizer, 
           criterion, 
           epoch, 
-          n_epochs):
+          n_epochs,
+          cuda_device):
 
     train_ref, train_lr, train_hr = train_list
 
@@ -40,9 +41,9 @@ def train(train_list,
     model.train()
 
     # Set mini-batch dataset
-    image_lr = to_var(train_lr).detach()
-    image_hr = to_var(train_hr).detach()
-    image_ref = to_var(train_ref).detach()
+    image_lr = to_var(train_lr,cuda_device).detach()
+    image_hr = to_var(train_hr,cuda_device).detach()
+    image_ref = to_var(train_ref,cuda_device).detach()
 
     # Forward, Backward and Optimize
     optimizer.zero_grad()
