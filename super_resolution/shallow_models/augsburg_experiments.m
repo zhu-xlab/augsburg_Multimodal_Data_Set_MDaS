@@ -12,7 +12,7 @@ addpath(genpath('.'))
 region = 'sub_area_1';
 toolbox_path = '.\'; 
 % data path
-data_path = [toolbox_path '..\data\' region '\'];
+data_path = [toolbox_path '..\..\Augsburg_data_4_publication\' region '\'];
 switch region
     case 'sub_area_1'        
         % Hyperspectral data
@@ -21,9 +21,6 @@ switch region
         FILENAME_MS  = 'EeteS_Sentinel_2_10m_sub_area1.tif'; 
         % Reference
         FILENAME_REF = 'EeteS_EnMAP_10m_sub_area1.tif'; 
-   case 'sub_area_2'
-   case 'sub_area_3'   
-        
 end
 
 % Hyperspectral data
