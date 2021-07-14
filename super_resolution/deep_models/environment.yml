@@ -1,4 +1,4 @@
-name: meanteather
+name: augsburg_superresolution
 channels:
   - pytorch
   - conda-forge
