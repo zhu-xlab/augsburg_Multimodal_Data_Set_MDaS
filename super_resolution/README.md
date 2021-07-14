@@ -4,9 +4,9 @@ This module includes codes implemented for the super resoltuion experiments in o
 
 ## Environment setting
 
+## Shallow models
 
-## Rerun the experiments
-
+## Deep models
 
 ## Acknowledgement
 
