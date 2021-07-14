@@ -23,12 +23,28 @@ The related research is published in the following paper:
 #### Environment
 **Step 1:** Install conda (version 4.9.1, where the code were tested)
 [Please refer to the anaconda documentation](https://docs.anaconda.com/anaconda/install/)
+
 **Step 2:** Create the identical conda env as our testing env
-```bash
+```
 cd deep_models
 conda env create -f environment.yml #Create env from yml file
 conda activate augsburg_superresolution #activate the conda env
 ```
 
+**Step 3:** Run the experiments
 
+SSR-NET experiments 
+```
+cd deep_models/SSRNET-master/
+python main.py
+```
+ResTFNet experiments
+```
+cd deep_models/SSRNET-master/
+python main_ResTNet.py
+```
+The trained models are saved in:
+```
+deep_models/trained_model/
+```
 
