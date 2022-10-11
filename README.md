@@ -16,7 +16,7 @@ The data is publicly available at [10.14459/2022mp1657312](https://doi.org/10.14
 }
 ```
 
-The code of the super-resolution experiments can be found [here](https://github.com/zhu-xlab/augsburg_Multimodal_Data_Set_MDaS/tree/main/super_resolution). Please, follow the links to get the original implementations used for the unmixing, namely [NMF-QMV](https://github.com/LinaZhuang/NMF-QMV_demo), [SeCoDe](https://github.com/danfenghong/IEEE_TGRS_SeCoDe), and [GMM](https://github.com/zhouyuanzxcv/Hyperspectral).
+The code of the super-resolution experiments can be found [here](https://github.com/zhu-xlab/augsburg_Multimodal_Data_Set_MDaS/tree/main/super_resolution), and the landcover [here](https://github.com/zhu-xlab/augsburg_Multimodal_Data_Set_MDaS/tree/main/landcover). Please, follow the links to get the original implementations used for the unmixing, namely [NMF-QMV](https://github.com/LinaZhuang/NMF-QMV_demo), [SeCoDe](https://github.com/danfenghong/IEEE_TGRS_SeCoDe), and [GMM](https://github.com/zhouyuanzxcv/Hyperspectral).
 
 
 
