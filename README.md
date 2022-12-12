@@ -20,3 +20,4 @@ The code of the super-resolution experiments can be found [here](https://github.
 
 
 
+Also, you can cite the code [![DOI](https://zenodo.org/badge/385866779.svg)](https://zenodo.org/badge/latestdoi/385866779).
